@@ -38,7 +38,7 @@ python3 subnetcalc.py <IP_ADDRESS>/<PREFIX> <OPTION>
 ```
 
 ## Requirements
-Python 3
+Python 3.7 and above.
 
 ## Installation
 clone the repo:
