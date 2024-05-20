@@ -34,7 +34,9 @@ class Subnet:
         return subnet
 
     @staticmethod
-    def getNextSubnet( IP : str, Prefix : int ) -> str :
+    def getNextSubnet(   IP   : str,
+                       Prefix : int 
+                       ) ->     str :
         '''
         Returns the next subnet of a given Prefix.
         '''
@@ -54,6 +56,12 @@ class Subnet:
         currentsubnet : list[ str ] = currentsubnet.split(".")           # splitting it into octets
 
         currentsubnet[currentOctet] = str(int(currentsubnet[currentOctet]) + blocksize) # we're changing the octet value by adding the blocksize to it (which would give us the next subnet)
+
+        if currentsubnet[currentOctet] == "256":    # if the value of the octet is 256
+            currentsubnet[currentOctet] = "0"       # change the value of that octet to zero
+            currentOctet -= 1                       # making the current octet the next one to the left
+            
+            currentsubnet[currentOctet] = str( int(currentsubnet[currentOctet]) + 1 ) # adding one to that octet.
 
         nextsubnet = ".".join( currentsubnet ) # joining the octets into an address
 
@@ -272,8 +280,11 @@ class IPv4:
     
         if len( address ) == 2: # meaning if there are an ip address and a prefix
 
+            IP     : str =      address[0]
+            Prefix : int = int( address[1] )
+
             try: # just to make sure the user didnt write Inalid inputs
-                if int( address[1] ) > 32 or int( address[1] ) < 1: # if the prefix is invalid
+                if Prefix > 32 or Prefix < 1: # if the prefix is invalid
                     return False
                 else:
                     validPrefix = True # if it's valid then set validPrefix to True
@@ -281,13 +292,23 @@ class IPv4:
             except ValueError: 
                 return False
             
+            # these below are just to enhance the readablility
+            IPstring : list[str] = IP.split(".")    # splitting the ip address into octets (strings)
+
+            IP       : list[int] = [ int( octet ) for octet in IPstring ]   # converting each octet into integer and adding it to this new list
+
+            FIRST_OCTET  : int = 0
+            SECOND_OCTET : int = 1
+            THIRD_OCTET  : int = 2
+            FOURTH_OCTET : int = 3
+
             # the code below is to check if the ip address is valid
-            if len( address[0].split(".") ) == 4 : # checks if the length of the splitted ip address if it has 4 elements
-                if (int(address[0].split(".")[0]) >= 1 and int(address[0].split(".")[0]) < 256 and # if the first octet has value between 1 and 255
-                    int(address[0].split(".")[1]) >= 0 and int(address[0].split(".")[1]) < 256 and # if the second octet has value between 0 and 255
-                    int(address[0].split(".")[2]) >= 0 and int(address[0].split(".")[2]) < 256 and # if the third octet has value between 0 and 255
-                    int(address[0].split(".")[3]) >= 0 and int(address[0].split(".")[3]) < 256  ): # if the fourth octet has value between 0 and 255
-                    validIP = True                      # since the 4 octets have valid values then the ip address is valid. 
+            if len( IP ) == 4 :        # checks if the length of the splitted ip address if it has 4 elements
+                if ( IP[FIRST_OCTET]  >= 1 and IP[FIRST_OCTET]  < 256 and       # if the first octet has value between 1 and 255
+                     IP[SECOND_OCTET] >= 0 and IP[SECOND_OCTET] < 256 and       # if the second octet has value between 0 and 255
+                     IP[THIRD_OCTET]  >= 0 and IP[THIRD_OCTET]  < 256 and       # if the third octet has value between 0 and 255
+                     IP[FOURTH_OCTET] >= 0 and IP[FOURTH_OCTET] < 256  ):       # if the fourth octet has value between 0 and 255
+                    validIP = True      # since the 4 octets have valid values then the ip address is valid. 
                 else:
                     return False
             else:
