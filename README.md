@@ -10,24 +10,35 @@ Python script that calculate the subnet details based on the provided Ip Address
 ## Usage
 To use the script, run the following command in your terminal inside the directory of the script:
 ```bash
-python3 subnetcalc.py <IP_ADDRESS>/<PREFIX>
+python3 subnetcalc.py <IP_ADDRESS>/<PREFIX> <OPTION>
 ```
+### Options (Optional):
+- addr             - Display the network address of the subnet.
+- netMask          - Display the subnet mask of the subnet.
+- nextAddr         - Display the next subnet address.
+- firstHost        - Display the first usable host address in the subnet.
+- lastHost         - Display the last usable host address in the subnet.
+- broadcast        - Display the broadcast address of the subnet.
+
 
 ### Example Output For 192.168.0.1/24
 ```bash
 
-  Subnet Mask (base 2)---------->   11111111111111111111111111111000
-  Subnet Mask (base 10)--------->   255.255.255.248
-  Subnet Address---------------->   192.168.0.0
-  First Host Address------------>   192.168.0.1
-  Last Host Address------------->   192.168.0.6
-  Broadcast Address------------->   192.168.0.7
-  Next subnet Address----------->   192.168.0.8
+  =======================================
+  |      Name      |      Address       |
+  +----------------+--------------------+
+  |     Subnet     |    192.168.0.0     |
+  |  Subnet Mask   |   255.255.255.0    |
+  |   First Host   |    192.168.0.1     |
+  |   Last Host    |   192.168.0.254    |
+  |   Broadcast    |   192.168.0.255    |
+  |  Next subnet   |    192.168.1.0     |
+  +----------------+--------------------+
 
 ```
 
 ## Requirements
-Python 3.x
+Python 3
 
 ## Installation
 clone the repo:
